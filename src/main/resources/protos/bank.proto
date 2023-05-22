@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package com.microservice.hub;
+
+message FileData {
+  string fileName = 1;
+  bytes fileContent = 2;
+}
+
+message BankInfo {
+  string bankId = 1;
+  string bankHostname = 2;
+  int32 bankPort = 3;
+}
+
+message PushFileRequest {
+  string bankId = 1;
+  FileData fileData = 2;
+}
+
+message RegisterBankRequest {
+  BankInfo bankInfo = 1;
+}

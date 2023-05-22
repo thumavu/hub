@@ -1,0 +1,8 @@
+version: '3'
+services:
+  hub:
+    build:
+      context: ./hub
+      dockerfile: Dockerfile
+    ports:
+      - 8081:8081
