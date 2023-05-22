@@ -14,24 +14,33 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * The @HubService is responsible for handling business logic of the Hub.
+ * It processes request received from the HubController
+ *
+ * */
 @Service
 public class HubService {
 
-    private Map<String, String> routeMap = new HashMap<>(); // In-memory key-value store for routing
-
-    @Autowired
+    private Map<String, String> routeMap = new HashMap<>();
     private RestTemplate restTemplate;
 
+    public HubService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
+
+    /**
+     * The @pushFileToBank() method takes in fileData and bankId.
+     * It receives bank's route from routeMap , if valid route then converts FileData into byte array then calls send request.
+     *
+     * */
     public void pushFileToBank(String bankId, Bank.FileData fileData) {
         String bankRoute = routeMap.get(bankId);
         if (bankRoute != null) {
             // Convert the FileDataProto to bytes
             byte[] fileDataBytes = fileData.toByteArray();
-
-            // Send the request to the bank interface
             sendRequestToBank(bankRoute, fileDataBytes);
         } else {
-            // Handle invalid bankId or missing route
             throw new RuntimeException("Invalid bankID");
         }
     }
@@ -41,6 +50,11 @@ public class HubService {
         routeMap.put(bankId, bankRoute);
     }
 
+    /**
+     * sendRequestToBank() tries to  send request to the bank if it fails, it throws and exception.
+     * It creates HTTP headers and sets the content type to 'APPLICATION_OCTET_STREAM' which is a media type specification,
+     * that represents binary data.
+     * */
     private void sendRequestToBank(String bankRoute, byte[] requestBytes) {
         // Create the HTTP headers
         HttpHeaders headers = new HttpHeaders();
@@ -50,7 +64,7 @@ public class HubService {
         HttpEntity<byte[]> requestEntity = new HttpEntity<>(requestBytes, headers);
 
         // Build the bank interface URL
-        String bankInterfaceUrl = "http://" + bankRoute + "/receiveFile";
+        String bankInterfaceUrl = "http://" + bankRoute + "/receive";
 
         // Send the request and handle the response
         try {

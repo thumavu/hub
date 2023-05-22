@@ -2,6 +2,9 @@ syntax = "proto3";
 
 package com.microservice.hub;
 
+// specifies the message types, their fields, and any required operations.
+// It serves as a contract or interface definition for the communication between different services.
+
 message FileData {
   string fileName = 1;
   bytes fileContent = 2;
