@@ -1,5 +1,7 @@
 package com.microservice.hub;
 
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -51,5 +53,11 @@ public class HubController {
     public ResponseEntity<String> registerBank(@PathVariable String bankId, @RequestBody Bank.BankInfo bankInfoProto) {
         hubService.registerBank(bankId, bankInfoProto);
         return ResponseEntity.ok("Bank registered: " + bankId);
+    }
+
+    @RequestMapping("/error")
+    public ResponseEntity<String> handleErrors() {
+        String errorMessage = "An error occurred while processing your request.";
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(errorMessage);
     }
 }
