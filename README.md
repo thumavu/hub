@@ -10,3 +10,12 @@
 * Protobuf provides a language-egnostic and efficient way to serializes data.
 * The protobuf schema is used to generate Java classes, which are used to serialise and deserialize messages.
 
+## Requirements
+- openjdk 17
+- maven
+- docker and docker-compose
+
+
+## To run the service execute the below commands
+- mvn clean install
+- java -jar target/Bank-0.0.1-SNAPSHOT.war
