@@ -18,4 +18,4 @@
 
 ## To run the service execute the below commands
 - mvn clean install
-- java -jar target/Bank-0.0.1-SNAPSHOT.war
+- java -jar target/Hub-0.0.1-SNAPSHOT.war
